@@ -1,0 +1,11 @@
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+df = pd.read_json("flipkart_fashion_products_dataset.json")
+df = df[['title','description']]
+df = df.dropna()
+tfidf = TfidfVectorizer()
+x = tfidf.fit_transform(df['description'])
+sim = cosine_similarity(x)
+for i in range(1,4):
+    print(df.iloc[i]['title'], sim[0][i])
