@@ -1,0 +1,14 @@
+import pandas as pd
+import networkx as nx
+from networkx.algorithms.community import greedy_modularity_communities
+
+df = pd.read_csv("facebook_combined.txt", sep=' ', header=None)
+df.columns = ['source','target']
+
+G = nx.from_pandas_edgelist(df, 'source', 'target')
+
+comm = greedy_modularity_communities(G)
+mod = nx.algorithms.community.modularity(G, comm)
+
+print("Number of Clusters:", len(comm))
+print("Modularity:", mod)
