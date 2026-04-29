@@ -1,0 +1,26 @@
+import kagglehub
+import os
+import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
+
+path = kagglehub.dataset_download("rogate16/amazon-reviews-2018-full-dataset")
+file = os.listdir(path)[0]
+df = pd.read_csv(path + "/" + file)
+
+df = df[['reviewText']]
+df = df.dropna().head(100)
+
+words = []
+
+for i in df['reviewText']:
+    words.append(i.lower().split()[:5])
+
+G = nx.Graph()
+
+for i in words:
+    for j in range(len(i)-1):
+        G.add_edge(i[j], i[j+1])
+
+nx.draw(G, with_labels=True, node_size=800)
+plt.show()
