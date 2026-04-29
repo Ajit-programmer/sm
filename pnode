@@ -1,0 +1,19 @@
+import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("higgs-retweet_network.edgelist", sep=' ', header=None)
+df = df[[0,1]].head(200)
+df.columns = ['source','target']
+
+G = nx.from_pandas_edgelist(df, 'source', 'target')
+
+c = nx.degree_centrality(G)
+top = sorted(c.items(), key=lambda i:i[1], reverse=True)[:5]
+
+print("Top Influencer Nodes")
+for i in top:
+    print(i)
+
+nx.draw(G, node_size=20, with_labels=False)
+plt.show()
